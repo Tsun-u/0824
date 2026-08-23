@@ -263,6 +263,16 @@ var SHEET_API_URL = "https://script.google.com/macros/s/AKfycbyE7RGX4gyC73u1SX4y
 // === Sign-in ===
 var hasSignedIn = false;
 
+// Check if already signed in before
+if(localStorage.getItem("tsunu0824_signed")){
+  hasSignedIn=true;
+  document.getElementById("pwSection").classList.remove("hidden");
+  document.getElementById("signinSection").querySelector("h2").textContent="📝 簽到牆（歡迎回來，"+localStorage.getItem("tsunu0824_name")+"！）";
+  document.getElementById("guestName").value=localStorage.getItem("tsunu0824_name");
+  document.getElementById("signinBtn").textContent="已簽到 ✓";
+  document.getElementById("signinBtn").disabled=true;
+}
+
 function signIn(){
   var name = document.getElementById("guestName").value.trim();
   var msg = document.getElementById("signinMsg");
@@ -281,6 +291,9 @@ function signIn(){
     if(d.result==="ok"){
       msg.textContent="簽到成功！";msg.className="msg ok";
       hasSignedIn=true;
+      localStorage.setItem("tsunu0824_signed","1");
+      localStorage.setItem("tsunu0824_name",name);
+      document.getElementById("signinBtn").textContent="已簽到 ✓";
       document.getElementById("pwSection").classList.remove("hidden");
       loadGuests();
     }else{
