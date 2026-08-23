@@ -180,41 +180,56 @@ input::placeholder{color:var(--hint);opacity:0.6}
     <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
     <div class="game-status" id="gameStatus">毛結剩餘：<span id="knotCount">0</span></div>
     <div class="game-area" id="gameArea">
-      <svg class="dog-svg" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
-        <!-- Dog body -->
-        <ellipse cx="200" cy="180" rx="120" ry="70" fill="var(--fur)" opacity="0.9"/>
-        <!-- Head -->
-        <circle cx="310" cy="130" r="45" fill="var(--fur)"/>
-        <!-- Ears -->
-        <ellipse cx="280" cy="85" rx="15" ry="25" fill="var(--fur-light)" transform="rotate(-20,280,85)"/>
-        <ellipse cx="340" cy="90" rx="15" ry="25" fill="var(--fur-light)" transform="rotate(15,340,90)"/>
-        <!-- Snout -->
-        <ellipse cx="340" cy="140" rx="18" ry="12" fill="var(--fur-light)"/>
-        <!-- Nose -->
-        <ellipse cx="350" cy="136" rx="6" ry="5" fill="#333"/>
-        <!-- Eyes -->
-        <circle cx="300" cy="122" r="5" fill="#333"/>
-        <circle cx="325" cy="120" r="5" fill="#333"/>
-        <circle cx="301" cy="121" r="2" fill="#fff"/>
-        <circle cx="326" cy="119" r="2" fill="#fff"/>
-        <!-- Mouth -->
-        <path d="M335,145 Q345,152 355,145" fill="none" stroke="#333" stroke-width="1.5"/>
-        <!-- Tail -->
-        <path d="M80,160 Q50,120 65,90" fill="none" stroke="var(--fur)" stroke-width="12" stroke-linecap="round"/>
-        <!-- Legs -->
-        <rect x="140" y="230" width="20" height="45" rx="8" fill="var(--fur)"/>
-        <rect x="180" y="235" width="20" height="40" rx="8" fill="var(--fur-light)"/>
-        <rect x="230" y="235" width="20" height="40" rx="8" fill="var(--fur)"/>
-        <rect x="270" y="230" width="20" height="45" rx="8" fill="var(--fur-light)"/>
-        <!-- Paws -->
-        <ellipse cx="150" cy="278" rx="14" ry="6" fill="var(--fur-light)"/>
-        <ellipse cx="190" cy="278" rx="14" ry="6" fill="var(--fur)"/>
-        <ellipse cx="240" cy="278" rx="14" ry="6" fill="var(--fur-light)"/>
-        <ellipse cx="280" cy="278" rx="14" ry="6" fill="var(--fur)"/>
-        <!-- Collar -->
-        <path d="M280,155 Q310,170 340,155" fill="none" stroke="var(--accent)" stroke-width="4"/>
-        <!-- Tag -->
-        <circle cx="310" cy="168" r="6" fill="#ffd700"/>
+      <svg class="dog-svg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+        <!-- 小黑 (left, darker) -->
+        <ellipse cx="150" cy="185" rx="95" ry="55" fill="#4a3a2a" opacity="0.9"/>
+        <circle cx="235" cy="135" r="36" fill="#4a3a2a"/>
+        <ellipse cx="210" cy="100" rx="12" ry="20" fill="#5a4a38" transform="rotate(-20,210,100)"/>
+        <ellipse cx="260" cy="103" rx="12" ry="20" fill="#5a4a38" transform="rotate(15,260,103)"/>
+        <ellipse cx="260" cy="143" rx="14" ry="10" fill="#5a4a38"/>
+        <ellipse cx="268" cy="140" rx="5" ry="4" fill="#222"/>
+        <circle cx="225" cy="128" r="4" fill="#222"/>
+        <circle cx="245" cy="127" r="4" fill="#222"/>
+        <circle cx="226" cy="127" r="1.5" fill="#fff"/>
+        <circle cx="246" cy="126" r="1.5" fill="#fff"/>
+        <path d="M255,148 Q263,154 271,148" fill="none" stroke="#222" stroke-width="1.2"/>
+        <path d="M55,165 Q30,130 42,105" fill="none" stroke="#4a3a2a" stroke-width="10" stroke-linecap="round"/>
+        <rect x="100" y="225" width="16" height="38" rx="6" fill="#4a3a2a"/>
+        <rect x="130" y="228" width="16" height="34" rx="6" fill="#5a4a38"/>
+        <rect x="170" y="228" width="16" height="34" rx="6" fill="#4a3a2a"/>
+        <rect x="200" y="225" width="16" height="38" rx="6" fill="#5a4a38"/>
+        <ellipse cx="108" cy="266" rx="11" ry="5" fill="#5a4a38"/>
+        <ellipse cx="138" cy="265" rx="11" ry="5" fill="#4a3a2a"/>
+        <ellipse cx="178" cy="265" rx="11" ry="5" fill="#5a4a38"/>
+        <ellipse cx="208" cy="266" rx="11" ry="5" fill="#4a3a2a"/>
+        <path d="M210,158 Q235,170 260,158" fill="none" stroke="#e74c3c" stroke-width="3.5"/>
+        <circle cx="235" cy="170" r="5" fill="#ffd700"/>
+        <text x="233" y="173" font-size="6" fill="#333" text-anchor="middle">黑</text>
+
+        <!-- 樂樂 (right, lighter) -->
+        <ellipse cx="430" cy="185" rx="95" ry="55" fill="var(--fur)" opacity="0.9"/>
+        <circle cx="515" cy="135" r="36" fill="var(--fur)"/>
+        <ellipse cx="490" cy="100" rx="12" ry="20" fill="var(--fur-light)" transform="rotate(-20,490,100)"/>
+        <ellipse cx="540" cy="103" rx="12" ry="20" fill="var(--fur-light)" transform="rotate(15,540,103)"/>
+        <ellipse cx="540" cy="143" rx="14" ry="10" fill="var(--fur-light)"/>
+        <ellipse cx="548" cy="140" rx="5" ry="4" fill="#333"/>
+        <circle cx="505" cy="128" r="4" fill="#333"/>
+        <circle cx="525" cy="127" r="4" fill="#333"/>
+        <circle cx="506" cy="127" r="1.5" fill="#fff"/>
+        <circle cx="526" cy="126" r="1.5" fill="#fff"/>
+        <path d="M535,148 Q543,154 551,148" fill="none" stroke="#333" stroke-width="1.2"/>
+        <path d="M335,165 Q310,130 322,105" fill="none" stroke="var(--fur)" stroke-width="10" stroke-linecap="round"/>
+        <rect x="380" y="225" width="16" height="38" rx="6" fill="var(--fur)"/>
+        <rect x="410" y="228" width="16" height="34" rx="6" fill="var(--fur-light)"/>
+        <rect x="450" y="228" width="16" height="34" rx="6" fill="var(--fur)"/>
+        <rect x="480" y="225" width="16" height="38" rx="6" fill="var(--fur-light)"/>
+        <ellipse cx="388" cy="266" rx="11" ry="5" fill="var(--fur-light)"/>
+        <ellipse cx="418" cy="265" rx="11" ry="5" fill="var(--fur)"/>
+        <ellipse cx="458" cy="265" rx="11" ry="5" fill="var(--fur-light)"/>
+        <ellipse cx="488" cy="266" rx="11" ry="5" fill="var(--fur)"/>
+        <path d="M490,158 Q515,170 540,158" fill="none" stroke="var(--accent)" stroke-width="3.5"/>
+        <circle cx="515" cy="170" r="5" fill="#ffd700"/>
+        <text x="513" y="173" font-size="6" fill="#333" text-anchor="middle">樂</text>
       </svg>
     </div>
     <div class="game-complete hidden" id="gameComplete">
@@ -319,15 +334,18 @@ function initGame(){
 
   // Generate knots on the dog body area
   var knotPositions=[
-    // Body area knots
-    {x:25,y:52},{x:30,y:60},{x:35,y:48},{x:40,y:65},
-    {x:45,y:50},{x:50,y:58},{x:55,y:45},{x:38,y:55},
-    {x:48,y:62},{x:42,y:48},{x:33,y:58},{x:52,y:55},
-    {x:28,y:48},{x:58,y:60},{x:46,y:42},{x:36,y:68},
-    // Head area knots
-    {x:72,y:38},{x:75,y:42},{x:78,y:35},{x:80,y:45},
-    // Back area
-    {x:42,y:40},{x:48,y:38},{x:55,y:42},{x:35,y:42},
+    // 小黑 body
+    {x:15,y:55},{x:20,y:62},{x:25,y:48},{x:28,y:58},
+    {x:22,y:45},{x:30,y:55},{x:18,y:65},{x:26,y:42},
+    {x:32,y:62},{x:24,y:50},{x:16,y:58},{x:28,y:68},
+    // 小黑 head
+    {x:36,y:40},{x:38,y:44},{x:40,y:38},
+    // 樂樂 body
+    {x:62,y:55},{x:67,y:62},{x:72,y:48},{x:75,y:58},
+    {x:70,y:45},{x:77,y:55},{x:65,y:65},{x:73,y:42},
+    {x:79,y:62},{x:71,y:50},{x:64,y:58},{x:75,y:68},
+    // 樂樂 head
+    {x:83,y:40},{x:85,y:44},{x:87,y:38},
   ];
 
   totalKnots=knotPositions.length;
