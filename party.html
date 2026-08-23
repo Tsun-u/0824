@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>阿宇的生日</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#faf6f0;--card:#fff;--text:#3a2e1e;--accent:#c8956c;
+  --accent2:#a07050;--border:#e0d5c5;--hint:#8a7a60;
+  --input-bg:#f5f0e8;--input-border:#d0c5b5;--success:#5a9a5a;
+  --fail:#c05050;--shadow:rgba(180,160,130,0.15);
+  --game-bg:#f0e8d8;--fur:#b08050;--fur-light:#d4a870;
+  --knot:#8a5a30;
+}
+@media(prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#1a1510;--card:#262018;--text:#d4c5a9;--border:#3a3028;
+    --hint:#8a7a60;--input-bg:#1e1810;--input-border:#4a3a28;
+    --shadow:rgba(0,0,0,0.3);--game-bg:#2a2218;--fur:#906838;
+    --fur-light:#b08858;--knot:#704828;
+  }
+}
+[data-theme="dark"]{
+  --bg:#1a1510;--card:#262018;--text:#d4c5a9;--border:#3a3028;
+  --hint:#8a7a60;--input-bg:#1e1810;--input-border:#4a3a28;
+  --shadow:rgba(0,0,0,0.3);--game-bg:#2a2218;--fur:#906838;
+  --fur-light:#b08858;--knot:#704828;
+}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:-apple-system,"Segoe UI","Noto Sans TC",sans-serif;
+  min-height:100vh;padding:20px;
+}
+.container{max-width:640px;margin:0 auto}
+.section{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:12px;padding:28px 24px;margin-bottom:20px;
+  box-shadow:0 4px 16px var(--shadow);
+}
+h1{
+  text-align:center;font-size:1.6em;color:var(--accent);
+  margin-bottom:4px;
+}
+.subtitle{text-align:center;color:var(--hint);font-size:0.9em;margin-bottom:20px}
+.emoji-header{text-align:center;font-size:2.5em;margin-bottom:12px}
+h2{font-size:1.15em;color:var(--accent2);margin-bottom:16px;text-align:center}
+input[type="text"],input[type="number"]{
+  width:100%;padding:10px 14px;background:var(--input-bg);
+  border:1px solid var(--input-border);border-radius:8px;
+  color:var(--text);font-size:1em;outline:none;
+  transition:border-color 0.3s;
+}
+input:focus{border-color:var(--accent)}
+input::placeholder{color:var(--hint);opacity:0.6}
+.btn{
+  display:inline-block;padding:10px 24px;
+  background:var(--accent);color:#fff;border:none;
+  border-radius:8px;font-size:0.95em;cursor:pointer;
+  transition:opacity 0.2s;font-family:inherit;
+}
+.btn:hover{opacity:0.85}
+.btn:disabled{opacity:0.4;cursor:default}
+.msg{font-size:0.85em;margin-top:8px;min-height:1.2em}
+.msg.ok{color:var(--success)}
+.msg.fail{color:var(--fail)}
+
+/* Sign-in wall */
+.signin-row{display:flex;gap:10px;margin-bottom:12px}
+.signin-row input{flex:1}
+.guest-list{margin-top:16px;max-height:300px;overflow-y:auto}
+.guest-item{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:8px 12px;border-bottom:1px solid var(--border);
+  font-size:0.9em;
+}
+.guest-item:last-child{border-bottom:none}
+.guest-name{font-weight:600;color:var(--accent2)}
+.guest-time{color:var(--hint);font-size:0.8em}
+.guest-count{text-align:center;color:var(--hint);font-size:0.85em;margin-top:8px}
+
+/* Password gate */
+.pw-questions{margin-bottom:16px}
+.pw-q{margin-bottom:14px}
+.pw-q label{display:block;font-size:0.9em;margin-bottom:6px;color:var(--text)}
+.pw-q input{max-width:120px;text-align:center}
+.pw-row{display:flex;align-items:center;gap:12px;justify-content:center}
+
+/* Dog grooming game */
+.game-area{
+  position:relative;width:100%;aspect-ratio:4/3;
+  background:var(--game-bg);border-radius:12px;
+  overflow:hidden;touch-action:none;cursor:url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><text y="18" font-size="18">🪥</text></svg>') 12 12,pointer;
+  margin-bottom:12px;
+}
+.dog-body{position:absolute}
+.knot{
+  position:absolute;width:18px;height:18px;border-radius:50%;
+  background:var(--knot);opacity:0.7;
+  transition:transform 0.3s,opacity 0.3s;pointer-events:none;
+}
+.knot.brushed{transform:scale(0);opacity:0}
+.progress-bar{
+  height:8px;background:var(--input-bg);border-radius:4px;
+  overflow:hidden;margin-bottom:8px;
+}
+.progress-fill{
+  height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));
+  border-radius:4px;transition:width 0.3s;width:0;
+}
+.game-status{text-align:center;font-size:0.9em;color:var(--hint)}
+.game-complete{
+  text-align:center;padding:20px;
+  animation:fadeIn 0.5s;
+}
+.game-complete h3{font-size:1.3em;color:var(--accent);margin-bottom:8px}
+.game-complete p{color:var(--text);line-height:1.6}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+.hidden{display:none}
+
+/* Dog SVG styles */
+.dog-svg{width:100%;height:100%}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Header -->
+  <div class="section">
+    <div class="emoji-header">🎂</div>
+    <h1>阿宇的生日派對</h1>
+    <p class="subtitle">歡迎來到這裡。你找到路了。</p>
+  </div>
+
+  <!-- Section 1: Sign-in Wall -->
+  <div class="section" id="signinSection">
+    <h2>📝 簽到牆</h2>
+    <p style="text-align:center;font-size:0.9em;color:var(--hint);margin-bottom:16px">
+      留下你的名字，讓阿宇知道你來過。
+    </p>
+    <div class="signin-row">
+      <input type="text" id="guestName" placeholder="你的名字" maxlength="30">
+      <button class="btn" id="signinBtn" onclick="signIn()">簽到</button>
+    </div>
+    <div class="msg" id="signinMsg"></div>
+    <div class="guest-list" id="guestList"></div>
+    <div class="guest-count" id="guestCount"></div>
+  </div>
+
+  <!-- Section 2: Password Gate -->
+  <div class="section hidden" id="pwSection">
+    <h2>🔑 通關密語</h2>
+    <p style="text-align:center;font-size:0.9em;color:var(--hint);margin-bottom:16px">
+      回答兩個問題，把答案串起來就是密碼。
+    </p>
+    <div class="pw-questions">
+      <div class="pw-q">
+        <label>1. 最後一堂社課在幾點結束？</label>
+        <input type="text" id="ans1" placeholder="數字" maxlength="4">
+      </div>
+      <div class="pw-q">
+        <label>2. 新語生活最初的員工（含阿宇）是幾個人？</label>
+        <input type="text" id="ans2" placeholder="數字" maxlength="4">
+      </div>
+    </div>
+    <div class="pw-row">
+      <button class="btn" onclick="checkPassword()">開門</button>
+    </div>
+    <div class="msg" id="pwMsg"></div>
+  </div>
+
+  <!-- Section 3: Dog Grooming Game -->
+  <div class="section hidden" id="gameSection">
+    <h2>🐕 幫小黑和樂樂梳毛</h2>
+    <p style="text-align:center;font-size:0.9em;color:var(--hint);margin-bottom:12px">
+      用手指或滑鼠在狗狗身上滑動，把毛結梳開吧！
+    </p>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="game-status" id="gameStatus">毛結剩餘：<span id="knotCount">0</span></div>
+    <div class="game-area" id="gameArea">
+      <svg class="dog-svg" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+        <!-- Dog body -->
+        <ellipse cx="200" cy="180" rx="120" ry="70" fill="var(--fur)" opacity="0.9"/>
+        <!-- Head -->
+        <circle cx="310" cy="130" r="45" fill="var(--fur)"/>
+        <!-- Ears -->
+        <ellipse cx="280" cy="85" rx="15" ry="25" fill="var(--fur-light)" transform="rotate(-20,280,85)"/>
+        <ellipse cx="340" cy="90" rx="15" ry="25" fill="var(--fur-light)" transform="rotate(15,340,90)"/>
+        <!-- Snout -->
+        <ellipse cx="340" cy="140" rx="18" ry="12" fill="var(--fur-light)"/>
+        <!-- Nose -->
+        <ellipse cx="350" cy="136" rx="6" ry="5" fill="#333"/>
+        <!-- Eyes -->
+        <circle cx="300" cy="122" r="5" fill="#333"/>
+        <circle cx="325" cy="120" r="5" fill="#333"/>
+        <circle cx="301" cy="121" r="2" fill="#fff"/>
+        <circle cx="326" cy="119" r="2" fill="#fff"/>
+        <!-- Mouth -->
+        <path d="M335,145 Q345,152 355,145" fill="none" stroke="#333" stroke-width="1.5"/>
+        <!-- Tail -->
+        <path d="M80,160 Q50,120 65,90" fill="none" stroke="var(--fur)" stroke-width="12" stroke-linecap="round"/>
+        <!-- Legs -->
+        <rect x="140" y="230" width="20" height="45" rx="8" fill="var(--fur)"/>
+        <rect x="180" y="235" width="20" height="40" rx="8" fill="var(--fur-light)"/>
+        <rect x="230" y="235" width="20" height="40" rx="8" fill="var(--fur)"/>
+        <rect x="270" y="230" width="20" height="45" rx="8" fill="var(--fur-light)"/>
+        <!-- Paws -->
+        <ellipse cx="150" cy="278" rx="14" ry="6" fill="var(--fur-light)"/>
+        <ellipse cx="190" cy="278" rx="14" ry="6" fill="var(--fur)"/>
+        <ellipse cx="240" cy="278" rx="14" ry="6" fill="var(--fur-light)"/>
+        <ellipse cx="280" cy="278" rx="14" ry="6" fill="var(--fur)"/>
+        <!-- Collar -->
+        <path d="M280,155 Q310,170 340,155" fill="none" stroke="var(--accent)" stroke-width="4"/>
+        <!-- Tag -->
+        <circle cx="310" cy="168" r="6" fill="#ffd700"/>
+      </svg>
+    </div>
+    <div class="game-complete hidden" id="gameComplete">
+      <h3>🎉 謝謝你幫小黑和樂樂梳毛！</h3>
+      <p>
+        毛梳好了，牠們看起來很開心。<br><br>
+        謝謝你來到這裡。<br>
+        謝謝你願意走過那些謎題找到這個地方。<br><br>
+        <span style="font-size:1.2em">🎂 阿宇生日快樂 🎂</span><br>
+        <span style="color:var(--hint);font-size:0.85em">2026.08.24</span>
+      </p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// === Config ===
+var SHEET_API_URL = "https://script.google.com/macros/s/AKfycbyE7RGX4gyC73u1SX4ya6NfCe_tB02RiRCixPpBVBTJO34h5JGsfiqWTKGmwjvWuR3qCw/exec";
+
+// === Sign-in ===
+var hasSignedIn = false;
+
+function signIn(){
+  var name = document.getElementById("guestName").value.trim();
+  var msg = document.getElementById("signinMsg");
+  if(!name){msg.textContent="請輸入名字";msg.className="msg fail";return}
+  var now = new Date();
+  var timeStr = now.getFullYear()+"/"+(now.getMonth()+1).toString().padStart(2,"0")+"/"+now.getDate().toString().padStart(2,"0")+" "+now.getHours().toString().padStart(2,"0")+":"+now.getMinutes().toString().padStart(2,"0");
+
+  document.getElementById("signinBtn").disabled = true;
+  msg.textContent="簽到中⋯";msg.className="msg";
+
+  fetch(SHEET_API_URL,{
+    method:"POST",
+    headers:{"Content-Type":"text/plain"},
+    body:JSON.stringify({action:"signin",name:name,time:timeStr})
+  }).then(function(r){return r.json()}).then(function(d){
+    if(d.result==="ok"){
+      msg.textContent="簽到成功！";msg.className="msg ok";
+      hasSignedIn=true;
+      document.getElementById("pwSection").classList.remove("hidden");
+      loadGuests();
+    }else{
+      msg.textContent="簽到失敗，請重試";msg.className="msg fail";
+      document.getElementById("signinBtn").disabled=false;
+    }
+  }).catch(function(){
+    msg.textContent="連線失敗，請重試";msg.className="msg fail";
+    document.getElementById("signinBtn").disabled=false;
+  });
+}
+
+function loadGuests(){
+  fetch(SHEET_API_URL+"?action=list").then(function(r){return r.json()}).then(function(d){
+    var list=document.getElementById("guestList");
+    var count=document.getElementById("guestCount");
+    list.innerHTML="";
+    if(d.guests&&d.guests.length){
+      d.guests.forEach(function(g){
+        var div=document.createElement("div");div.className="guest-item";
+        div.innerHTML='<span class="guest-name">'+escHtml(g.name)+'</span><span class="guest-time">'+escHtml(g.time)+'</span>';
+        list.appendChild(div);
+      });
+      count.textContent="已有 "+d.guests.length+" 人簽到";
+    }
+  }).catch(function(){});
+}
+
+function escHtml(s){var d=document.createElement("div");d.textContent=s;return d.innerHTML}
+
+// Load guests on page load
+loadGuests();
+
+// === Password Gate ===
+function checkPassword(){
+  var a1=document.getElementById("ans1").value.trim();
+  var a2=document.getElementById("ans2").value.trim();
+  var msg=document.getElementById("pwMsg");
+  var pw=a1+a2;
+  if(pw==="1103"){
+    msg.textContent="答對了！";msg.className="msg ok";
+    document.getElementById("gameSection").classList.remove("hidden");
+    document.getElementById("gameSection").scrollIntoView({behavior:"smooth"});
+    initGame();
+  }else{
+    msg.textContent="密碼不對，再想想。";msg.className="msg fail";
+  }
+}
+
+// === Dog Grooming Game ===
+var knots=[];
+var brushedCount=0;
+var totalKnots=0;
+var gameStarted=false;
+
+function initGame(){
+  if(gameStarted)return;
+  gameStarted=true;
+  var area=document.getElementById("gameArea");
+  var rect=area.getBoundingClientRect();
+
+  // Generate knots on the dog body area
+  var knotPositions=[
+    // Body area knots
+    {x:25,y:52},{x:30,y:60},{x:35,y:48},{x:40,y:65},
+    {x:45,y:50},{x:50,y:58},{x:55,y:45},{x:38,y:55},
+    {x:48,y:62},{x:42,y:48},{x:33,y:58},{x:52,y:55},
+    {x:28,y:48},{x:58,y:60},{x:46,y:42},{x:36,y:68},
+    // Head area knots
+    {x:72,y:38},{x:75,y:42},{x:78,y:35},{x:80,y:45},
+    // Back area
+    {x:42,y:40},{x:48,y:38},{x:55,y:42},{x:35,y:42},
+  ];
+
+  totalKnots=knotPositions.length;
+  document.getElementById("knotCount").textContent=totalKnots;
+
+  knotPositions.forEach(function(pos,i){
+    var knot=document.createElement("div");
+    knot.className="knot";
+    knot.style.left=pos.x+"%";
+    knot.style.top=pos.y+"%";
+    knot.dataset.index=i;
+    area.appendChild(knot);
+    knots.push({el:knot,brushed:false,x:pos.x,y:pos.y});
+  });
+
+  // Mouse/touch handlers
+  var brushing=false;
+  area.addEventListener("mousedown",function(e){brushing=true;brush(e)});
+  area.addEventListener("mousemove",function(e){if(brushing)brush(e)});
+  area.addEventListener("mouseup",function(){brushing=false});
+  area.addEventListener("mouseleave",function(){brushing=false});
+  area.addEventListener("touchstart",function(e){e.preventDefault();brushTouch(e)},{passive:false});
+  area.addEventListener("touchmove",function(e){e.preventDefault();brushTouch(e)},{passive:false});
+
+  function brush(e){
+    var rect=area.getBoundingClientRect();
+    var x=(e.clientX-rect.left)/rect.width*100;
+    var y=(e.clientY-rect.top)/rect.height*100;
+    checkBrush(x,y);
+  }
+  function brushTouch(e){
+    var rect=area.getBoundingClientRect();
+    for(var i=0;i<e.touches.length;i++){
+      var t=e.touches[i];
+      var x=(t.clientX-rect.left)/rect.width*100;
+      var y=(t.clientY-rect.top)/rect.height*100;
+      checkBrush(x,y);
+    }
+  }
+  function checkBrush(x,y){
+    knots.forEach(function(k){
+      if(k.brushed)return;
+      var dx=x-k.x,dy=y-k.y;
+      if(Math.sqrt(dx*dx+dy*dy)<6){
+        k.brushed=true;
+        k.el.classList.add("brushed");
+        brushedCount++;
+        updateProgress();
+      }
+    });
+  }
+}
+
+function updateProgress(){
+  var pct=brushedCount/totalKnots*100;
+  document.getElementById("progressFill").style.width=pct+"%";
+  document.getElementById("knotCount").textContent=(totalKnots-brushedCount);
+  if(brushedCount>=totalKnots){
+    document.getElementById("gameStatus").classList.add("hidden");
+    document.getElementById("gameArea").classList.add("hidden");
+    document.querySelector(".progress-bar").classList.add("hidden");
+    document.getElementById("gameComplete").classList.remove("hidden");
+  }
+}
+</script>
+</body>
+</html>
