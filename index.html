@@ -79,7 +79,6 @@ h1{
     這段文字被鎖住了。<br>
     打開它需要一把鑰匙。
   </p>
-  <div class="cipher-block">dHN1bnU4MjRiaXJ0aGRheWXdQ9EZtuQNE903tctWWrUokClTvHiUW331md0KA0P8Lki3IRTDHkgBezDKfwdIxw==</div>
   <p class="hint">
     鑰匙藏在他的生活裡——<br>
     <strong>一個日期</strong>、<strong>兩個名字</strong>、<strong>一間公司</strong>。<br><br>
@@ -87,6 +86,15 @@ h1{
     然後用 <strong>MD5</strong> 鑄成鑰匙。
   </p>
   <div class="divider"></div>
+  <p class="hint" style="font-size:0.85em;line-height:2;font-style:normal;text-align:left">
+    <strong style="color:var(--accent)">解密參數：</strong><br>
+    模式：<strong>AES-128-CBC</strong><br>
+    Key（Hex）：用 MD5 算出來的那串<br>
+    IV（Hex）：<code style="background:var(--input-bg);padding:2px 6px;border-radius:3px;font-size:0.9em">7473756e753832346269727468646179</code><br>
+    Padding：<strong>PKCS5</strong><br>
+    密文（Base64）：
+  </p>
+  <div class="cipher-block">Zd1D0Rm25A0T3Te1y1ZatSiQKVO8eJRbffWZ3QoDQ/wuSLchFMMeSAF7MMp/B0jH</div>
   <p class="hint">
     解開之後，你會得到一個<strong>網址</strong>。
   </p>
@@ -94,9 +102,6 @@ h1{
     <a href="https://www.md5hashgenerator.com/" target="_blank" rel="noopener">MD5 工具</a>
     <a href="https://www.devglan.com/online-tools/aes-encryption-decryption" target="_blank" rel="noopener">AES 解碼器</a>
   </div>
-  <p class="note">
-    提示：AES-128-CBC，密文前 16 bytes 是 IV。
-  </p>
   <div class="footer">祝你好運。</div>
 </div>
 </body>
