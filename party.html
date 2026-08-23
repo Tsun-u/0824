@@ -309,8 +309,7 @@ function checkPassword(){
   var a1=document.getElementById("ans1").value.trim();
   var a2=document.getElementById("ans2").value.trim();
   var msg=document.getElementById("pwMsg");
-  var pw=a1+a2;
-  if(pw==="1103"){
+  if(a1==="11" && (a2==="3"||a2==="03")){
     msg.textContent="答對了！";msg.className="msg ok";
     document.getElementById("gameSection").classList.remove("hidden");
     document.getElementById("gameSection").scrollIntoView({behavior:"smooth"});
